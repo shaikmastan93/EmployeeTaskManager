@@ -1,7 +1,9 @@
 from rest_framework import viewsets,filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Employee, Task
-from .serializers import EmployeeSerializer, TaskSerializer
+from .serializers import EmployeeSerializer, TaskSerializer ,UserRegisterSerializer
+from rest_framework import generics
+from django.contrib.auth.models import User
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
@@ -30,3 +32,9 @@ class TaskViewSet(viewsets.ModelViewSet):
         # ✅ Allow ordering by date fields
     ordering_fields = ['created_at', 'updated_at']
     ordering = ['-created_at']  # Default ordering (latest first)
+
+
+class UserRegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    permission_classes = []  # Allow anyone to register
